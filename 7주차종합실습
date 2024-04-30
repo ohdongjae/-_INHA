@@ -1,0 +1,85 @@
+import numpy as np
+import pandas as pd
+
+# 1. 다음과 같은 Series 객체를 생성하세요
+# index: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+# data: 1.2, 2.5, 0.7, 1.8, 2.9, 3.2, 2.1, 1.5, 2.0, 1.1
+
+data = pd.Series([1.2, 2.5, 0.7, 1.8, 2.9, 3.2, 2.1, 1.5, 2.0, 1.1], index = [0,1,2,3,4,5,6,7,8,9])
+
+# 2. 위에서 생성한 Series 객체에서 값이 2.0 이상이고 3.0 미만인 원소의 인덱스와 값을 출력하세요.
+
+data[(data >= 2.0) & (data < 3.0)]
+data
+
+# 3. 위에서 생성한 Series 객체에서 값이 1.5보다 작은 원소의 값을 모두 0으로 변경한 새로운 Series 객체를 생성하세요.
+
+data[data < 1.5] = 0
+data
+
+# 4. 위에서 생성한 Series 객체의 요약통계량 값을 계산하세요.
+
+
+# 5. DataFrame 작성
+
+Name = ["Amy", "John", "Kate", "Brian", "Lisa"]
+Age = [20, 25, 30, 35, 40]
+Gender = ["Female", "Male", "Female", "Male", "Female"]
+
+dat1 = pd.DataFrame({"Name" : Name , "Age" : Age, "Gender" : Gender})
+
+# 6. 위에서 생성한 DataFrame에서 Name 열을 인덱스로 설정하세요.
+
+dat1 = dat1.set_index(['Name'])
+
+# 7. 위에서 생성한 DataFrame에서 Name이 ’John’인 행의 Age를 26으로 변경하세요
+
+dat1.loc["John", 'Age'] = 26
+dat1
+
+# 8. 다음과 같은 데이터를 가진 DataFrame을 생성하세요.
+
+"""Name  Score
+0  Amy   90
+1  John  80
+2  Kate  85
+3  Brian 92
+4  Lisa  87 """
+
+Score = [90, 80, 85, 92, 87]
+dat2 = pd.DataFrame({"Name" : Name, "Score" : Score})
+dat2
+
+# 9. 위에서 생성한 두 개의 DataFrame을 합쳐서 하나의 DataFrame으로 만들되, Name을 기준으로 합치고, 이를 출력하세요.
+
+dat1
+dat2 = dat2.set_index('Name')
+pd.concat([dat1, dat2], axis =1)
+
+#
+
+# 11. 다음과 같은 데이터를 가진 DataFrame을 생성하세요. 단, ’Age’ 열의 2번째와 4번째 값을 NaN으로 만드세요.
+
+Age = [20, np.nan, 30, np.nan, 40]
+dat3 = pd.DataFrame({"Name" : Name , "Age" : Age, "Gender" : Gender})
+
+# 12. 위에서 생성한 DataFrame에서 NaN 값을 가진 행을 모두 삭제하세요
+
+dat3.dropna(axis = 0)
+
+# 13. 위에서 생성한 DataFrame에서 NaN 값을 가진 ’Age’ 열의 값을 해당 열의 평균값으로 대체하세요.
+
+dat3.fillna(dat3['Age'].mean())
+
+# 14. 다음과 같은 데이터를 가진 Series를 생성하세요.
+# data = pd.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100])
+
+data4 = pd.Series([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100])
+data4
+
+# 15. 위에서 생성한 Series에서 이상치를 모두 제거하세요 (Pandas객체의 drop() 메소드를 활용). 이상치는 평균에서 표준편차의 2배 이상 떨어진 값입니다.
+## 즉, 이상치는 데이터와 평균의 거리가 2*표준편차 이상 떨어진 값을 뜻한다.
+
+
+abs(data4 - data4.mean()) >= 2 * data4.std()
+data4 = data4[abs(data4.mean() - data4) < 2*data4.std()]
